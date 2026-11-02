@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 const ITEMS = [
-  { id: 'top', label: '序' },
+  { id: 'top', label: '序章' },
   { id: 'prologue', label: '王座' },
-  { id: 'chronicle', label: '编年' },
+  { id: 'chronicle', label: '编年史' },
   { id: 'geo', label: '星图' },
   { id: 'factions', label: '派系' },
   { id: 'network', label: '关系' },
@@ -31,17 +31,28 @@ export default function Nav() {
   }, []);
 
   return (
-    <nav className="nav" aria-label="章节导航">
-      {ITEMS.map((i) => (
-        <a
-          key={i.id}
-          href={`#${i.id}`}
-          className={active === i.id ? 'active' : ''}
-          onClick={() => setActive(i.id)}
-        >
-          {i.label}
+    <header className="nav">
+      <div className="nav-inner">
+        <a className="nav-brand" href="#top" onClick={() => setActive('top')}>
+          <span className="nav-brand-cn">帝国曙光</span>
+          <span className="nav-brand-en">TWILIGHT IMPERIUM</span>
         </a>
-      ))}
-    </nav>
+
+        <nav className="nav-links" aria-label="章节导航">
+          {ITEMS.map((i) => (
+            <a
+              key={i.id}
+              href={`#${i.id}`}
+              className={active === i.id ? 'active' : ''}
+              onClick={() => setActive(i.id)}
+            >
+              {i.label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="nav-meta">第四版 · 设定档案</div>
+      </div>
+    </header>
   );
 }
