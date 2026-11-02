@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const ITEMS = [
   { id: 'top', label: '序' },
@@ -32,17 +32,15 @@ export default function Nav() {
 
   return (
     <nav className="nav" aria-label="章节导航">
-      {ITEMS.map((i, idx) => (
-        <Fragment key={i.id}>
-          {idx > 0 && <span className="nav-dot" />}
-          <a
-            href={`#${i.id}`}
-            className={active === i.id ? 'active' : ''}
-            onClick={() => setActive(i.id)}
-          >
-            {i.label}
-          </a>
-        </Fragment>
+      {ITEMS.map((i) => (
+        <a
+          key={i.id}
+          href={`#${i.id}`}
+          className={active === i.id ? 'active' : ''}
+          onClick={() => setActive(i.id)}
+        >
+          {i.label}
+        </a>
       ))}
     </nav>
   );
