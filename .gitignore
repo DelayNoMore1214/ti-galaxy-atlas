@@ -11,6 +11,8 @@ _dev/
 !.github/
 *.log
 *.png
+# 例外：站点图标会被构建内联，必须入库
+!src/assets/favicon/*.png
 dom.html
 t.html
 vite.test.config.ts

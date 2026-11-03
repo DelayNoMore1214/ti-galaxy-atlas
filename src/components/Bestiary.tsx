@@ -36,7 +36,7 @@ export default function Bestiary({ onOpen }: { onOpen: (id: string) => void }) {
       <div className="wrap">
         <div className="eyebrow">IV · 派系图鉴</div>
         <h2 className="title">
-          三十个<em>文明</em>，三十种想坐上去的理由
+          三十个<em>文明</em>，三十种想坐上王座的理由
         </h2>
         <p className="lede">
           基础游戏 17 族、《预言之王》7 族、Codex 的凯勒斯议会、《雷霆边缘》5

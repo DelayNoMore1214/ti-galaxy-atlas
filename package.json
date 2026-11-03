@@ -7,10 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "names": "node tools/nameTable.mjs sync",
-    "names:watch": "node tools/nameTable.mjs watch",
-    "names:extract": "node tools/nameTable.mjs extract",
-    "names:check": "node tools/nameTable.mjs check"
+    "names": "node tools/glossary.mjs sync",
+    "names:watch": "node tools/glossary.mjs watch",
+    "names:check": "node tools/glossary.mjs check"
   },
   "dependencies": {
     "framer-motion": "^11.3.0",

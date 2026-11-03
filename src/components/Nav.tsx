@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import brandIcon from '../assets/favicon/favicon-64.png';
 
 const ITEMS = [
   { id: 'top', label: '序章' },
@@ -34,6 +35,7 @@ export default function Nav() {
     <header className="nav">
       <div className="nav-inner">
         <a className="nav-brand" href="#top" onClick={() => setActive('top')}>
+          <img className="nav-brand-icon" src={brandIcon} alt="" width={24} height={24} />
           <span className="nav-brand-cn">帝国曙光</span>
           <span className="nav-brand-en">TWILIGHT IMPERIUM</span>
         </a>
