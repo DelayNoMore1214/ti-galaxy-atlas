@@ -1,13 +1,15 @@
 import { useMemo, useState } from 'react';
 import GalaxyMap, { MapLink, MapNode } from './GalaxyMap';
+import NarrativeOrbit from './NarrativeOrbit';
 import WarpDiagram from './WarpDiagram';
 import PlaceModal from './PlaceModal';
 import {
-  FACTIONS,
+  CATEGORY_META,
   FACTION_MAP,
   PLACES,
-  RELATIONS,
   RELATION_META,
+  otherSide,
+  relationsOf,
 } from '../data';
 import type { Place } from '../data';
 
@@ -55,48 +57,6 @@ export default function GeoSection({ onFaction }: { onFaction: (id: string) => v
         color: PLACE_COLOR[p.type] ?? '#8fa87f',
         pos: p.pos,
         size: p.type === 'core' ? 0.3 : p.type === 'anomaly' ? 0.24 : 0.2,
-      })),
-    []
-  );
-
-  const inferredNodes: MapNode[] = useMemo(() => {
-    const groups: Record<string, string[]> = {
-      council: ['keleres'],
-      great: FACTIONS.filter((f) => f.category === 'great').map((f) => f.id),
-      antagonist: FACTIONS.filter((f) => f.category === 'antagonist').map((f) => f.id),
-      newcomer: FACTIONS.filter((f) => f.category === 'newcomer').map((f) => f.id),
-    };
-    const radius: Record<string, number> = {
-      council: 2.6,
-      great: 8.6,
-      antagonist: 13.2,
-      newcomer: 17.4,
-    };
-    const out: MapNode[] = [];
-    Object.entries(groups).forEach(([cat, ids]) => {
-      ids.forEach((id, i) => {
-        const f = FACTION_MAP[id];
-        const a = (i / ids.length) * Math.PI * 2 + (radius[cat] % 1.3);
-        const y = Math.sin(i * 2.1) * 1.6;
-        out.push({
-          id,
-          label: f.nameZh,
-          color: f.color,
-          pos: [Math.cos(a) * radius[cat], y, Math.sin(a) * radius[cat]],
-          size: 0.22,
-        });
-      });
-    });
-    return out;
-  }, []);
-
-  const inferredLinks: MapLink[] = useMemo(
-    () =>
-      RELATIONS.map((r) => ({
-        a: r.a,
-        b: r.b,
-        color: RELATION_META[r.type].color,
-        alpha: 0.13,
       })),
     []
   );
@@ -164,7 +124,7 @@ export default function GeoSection({ onFaction }: { onFaction: (id: string) => v
                     展开完整档案
                   </button>
                 </div>
-                <div className="mono" style={{ marginTop: 14 }}>
+                <div className="mono source-note" style={{ marginTop: 14 }}>
                   出处 · {place.source}
                 </div>
               </div>
@@ -175,33 +135,55 @@ export default function GeoSection({ onFaction }: { onFaction: (id: string) => v
         {tab === 'inferred' && (
           <>
             <div className="confidence inferred">
-              ◇ 推演层：官方从未给出派系坐标。此处仅按叙事亲疏与冲突关系排布，<strong>不代表真实方位</strong>
+              ◇ 推演层：官方从未给出派系坐标。半径是<strong>与王座的关系层级</strong>、不是距离；
+              同一轨道上的相邻位置只按故事相邻排列，连线是关系、不是航道
             </div>
-            <GalaxyMap
-              nodes={inferredNodes}
-              links={inferredLinks}
-              selectedId={selectedFaction}
-              onSelect={(id) => setSelectedFaction(id)}
-              showRings={false}
+            <NarrativeOrbit
+              selected={selectedFaction}
+              onSelect={(id) => setSelectedFaction((prev) => (prev === id ? null : id))}
             />
             <div className="map-detail">
               {faction ? (
                 <>
-                  <h3>{faction.nameZh}</h3>
-                  <div className="en">{faction.nameEn}</div>
+                  <h3>
+                    {faction.nameZh}{' '}
+                    <span className="detail-en">{faction.nameEn}</span>
+                  </h3>
+                  <div className="en">
+                    {CATEGORY_META[faction.category].label} · {faction.homeworld}
+                  </div>
                   <p>{faction.oneLiner}</p>
-                  <div className="chip-row">
+                  <div className="orbit-rels">
+                    {relationsOf(faction.id).map((r, i) => {
+                      const other = FACTION_MAP[otherSide(r, faction.id)];
+                      const meta = RELATION_META[r.type];
+                      if (!other) return null;
+                      return (
+                        <div key={i} className="rel-item">
+                          <div className="rel-type" style={{ color: meta.color }}>
+                            {meta.label}
+                          </div>
+                          <div className="rel-body">
+                            <strong>{other.nameZh}</strong>
+                            <span>{r.note}</span>
+                            <em>出处 · {r.source}</em>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="chip-row" style={{ marginTop: 16 }}>
                     <button className="chip" onClick={() => onFaction(faction.id)}>
                       打开完整档案
                     </button>
-                    {faction.homeworld && <span className="chip">{faction.homeworld}</span>}
                   </div>
                 </>
               ) : (
                 <>
                   <h3>选择一颗星点</h3>
                   <p className="empty" style={{ margin: 0 }}>
-                    30 个派系按"伟大文明 / 敌对势力 / 议会机构 / 新晋势力"分层排布。连线是关系，不是航道。
+                    由内到外的四条轨道，是"与王座的关系"从近到远：议会紧贴王座，旧帝国秩序在里圈，敌对势力在外圈，新来者来自最远处。
+                    点击任一派系，其余连线淡出，只留下它欠下的、或正在打的那些仗。
                   </p>
                 </>
               )}

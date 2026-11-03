@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-const SRC = path.join(os.homedir(), 'Desktop', '帝国曙光派系图');
+const SRC = path.join(os.homedir(), 'WorkBuddy', '2026-11-02-03-39-00', '帝国曙光', '派系缩略图');
 const OUT = path.resolve('src/assets/portraits');
 fs.mkdirSync(OUT, { recursive: true });
 
@@ -35,9 +35,11 @@ const MAP = [
   ['That Which Molds Flesh.png', 'vuilraith'],
 ];
 
-const SIZE = 176;
+// 弹窗里按 250×250 CSS px 显示，输出 500×500 以覆盖 2x 屏
+const SIZE = 500;
+
 let done = 0;
-let missing = [];
+const missing = [];
 
 MAP.forEach(([file, id]) => {
   const src = path.join(SRC, file);
@@ -45,21 +47,23 @@ MAP.forEach(([file, id]) => {
     missing.push(file);
     return;
   }
-  const w = Number(execFileSync('sips', ['-g', 'pixelWidth', src], { encoding: 'utf8' }).match(/pixelWidth: (\d+)/)[1]);
+  const w = Number(
+    execFileSync('sips', ['-g', 'pixelWidth', src], { encoding: 'utf8' }).match(/pixelWidth: (\d+)/)[1]
+  );
   const crop = Math.round(w * 0.93);
   const tmp = path.join(OUT, id + '.tmp.jpg');
   execFileSync('sips', ['-c', String(crop), String(crop), src, '--out', tmp], { stdio: 'ignore' });
   const out = path.join(OUT, id + '.jpg');
   execFileSync(
     'sips',
-    ['-Z', String(SIZE), '-s', 'format', 'jpeg', '-s', 'formatOptions', '74', tmp, '--out', out],
+    ['-Z', String(SIZE), '-s', 'format', 'jpeg', '-s', 'formatOptions', '78', tmp, '--out', out],
     { stdio: 'ignore' }
   );
   fs.unlinkSync(tmp);
   done += 1;
 });
 
-const files = fs.readdirSync(OUT);
+const files = fs.readdirSync(OUT).filter((f) => f.endsWith('.jpg'));
 const bytes = files.reduce((s, f) => s + fs.statSync(path.join(OUT, f)).size, 0);
 console.log(`converted ${done}, files ${files.length}, total ${(bytes / 1024).toFixed(0)} KB`);
 if (missing.length) console.log('MISSING:', missing.join(', '));

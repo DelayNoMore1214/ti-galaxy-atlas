@@ -203,7 +203,8 @@ export default function RelationGraph({ onOpen }: Props) {
         const dx = b.x - a.x;
         const dy = b.y - a.y;
         const d = Math.hypot(dx, dy) || 1;
-        const target = 178;
+        // 左右分栏后画布变窄，收紧弹簧长度，避免星点挤到边界
+        const target = cw < 760 ? 146 : 178;
         const f = (d - target) * 0.0022;
         const ux = (dx / d) * f;
         const uy = (dy / d) * f;
@@ -328,7 +329,7 @@ export default function RelationGraph({ onOpen }: Props) {
         ctx.restore();
         ctx.globalAlpha = 1;
 
-        const small = cw < 720;
+        const small = cw < 760;
         const showLabel = !small || isFocus || hoverRef.current === n.id || n.degree >= 5;
         if (!showLabel) return;
         const size = isFocus ? 16 : 14;
@@ -347,7 +348,11 @@ export default function RelationGraph({ onOpen }: Props) {
       labels.sort((a, b) => a.prio - b.prio);
       const boxes: { x: number; y: number; w: number }[] = [];
       labels.forEach((l) => {
-        const box = { x: l.x - l.w / 2, y: l.y - 11, w: l.w };
+        const half = l.w / 2;
+        // 贴边的标签向内收，避免被画布裁掉
+        if (l.x - half < 8) l.x = 8 + half;
+        else if (l.x + half > cw - 8) l.x = cw - 8 - half;
+        const box = { x: l.x - half, y: l.y - 11, w: l.w };
         const clash = boxes.some(
           (b) => Math.abs(b.x + b.w / 2 - l.x) < (b.w + l.w) / 2 + 4 && Math.abs(b.y - box.y) < 19
         );
@@ -442,61 +447,72 @@ export default function RelationGraph({ onOpen }: Props) {
           })}
         </div>
 
-        <div className="graph-shell" ref={wrapRef}>
-          <canvas ref={canvasRef} />
-          <div className="graph-hint">拖动星点重排 · 点击查看关系</div>
-        </div>
+        <div className="graph-layout">
+          <div className="graph-shell" ref={wrapRef}>
+            <canvas ref={canvasRef} />
+            <div className="graph-hint">拖动星点重排 · 点击查看关系</div>
+          </div>
 
-        <div className="graph-panel">
-          {sel ? (
-            <>
-              <h3>
-                {sel.nameZh}{' '}
-                <span style={{ fontSize: 15, letterSpacing: '0.2em', color: '#7d7768' }}>
-                  {sel.nameEn}
-                </span>
-              </h3>
-              <div className="rel-list">
-                {selRels.map((r, i) => {
-                  const other = FACTION_MAP[otherSide(r, sel.id)];
-                  const meta = RELATION_META[r.type];
-                  if (!other) return null;
-                  return (
-                    <div key={i} className="rel-item" onClick={() => onOpen(other.id)}>
-                      <div className="rel-type" style={{ color: meta.color }}>
-                        {meta.label}
+          <div className="graph-panel">
+            {sel ? (
+              <>
+                <h3>
+                  {sel.nameZh}
+                  <span className="panel-en" lang="en">
+                    {sel.nameEn}
+                  </span>
+                </h3>
+                <div className="rel-list">
+                  {selRels.map((r, i) => {
+                    const other = FACTION_MAP[otherSide(r, sel.id)];
+                    const meta = RELATION_META[r.type];
+                    if (!other) return null;
+                    return (
+                      <div key={i} className="rel-item" onClick={() => onOpen(other.id)}>
+                        <div className="rel-type" style={{ color: meta.color }}>
+                          {meta.label}
+                        </div>
+                        <div className="rel-body">
+                          <strong>{other.nameZh}</strong>
+                          <span>{r.note}</span>
+                          <em>出处 · {r.source}</em>
+                        </div>
                       </div>
-                      <div className="rel-body">
-                        <strong>{other.nameZh}</strong>
-                        <span>{r.note}</span>
-                        <em>出处 · {r.source}</em>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-              <div style={{ marginTop: 16 }}>
-                <button className="chip" onClick={() => onOpen(sel.id)}>
-                  打开完整档案
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <h3>选择一个派系</h3>
-              <p className="empty">
-                线越密，牵连越多。拉扎克斯遗产这条线上挂着继承者、灭绝者与看守者——点开
-                拉扎克斯、索尔或温哈，会看到三种互不相容的记忆。
-              </p>
-              <div className="chip-row" style={{ marginTop: 4 }}>
-                {['l1z1x', 'sol', 'winnu', 'mahact', 'argent', 'keleres'].map((id) => (
-                  <button key={id} className="chip" onClick={() => setSelected(id)}>
-                    {FACTION_MAP[id].nameZh}
+                    );
+                  })}
+                </div>
+                <div style={{ marginTop: 16 }}>
+                  <button className="chip" onClick={() => onOpen(sel.id)}>
+                    打开完整档案
                   </button>
-                ))}
-              </div>
-            </>
-          )}
+                </div>
+              </>
+            ) : (
+              <>
+                <h3>选择一个派系</h3>
+                <p className="empty">
+                  线越密，牵连越多。拉扎克斯遗产这条线上挂着继承者、灭绝者与看守者——点开
+                  拉扎克斯、索尔或温哈，会看到三种互不相容的记忆。
+                </p>
+                <div className="panel-legend">
+                  {Object.entries(RELATION_META).map(([key, meta]) => (
+                    <div className="panel-legend-row" key={key}>
+                      <i style={{ background: meta.color }} />
+                      <span>{meta.label}</span>
+                      <em>{meta.desc}</em>
+                    </div>
+                  ))}
+                </div>
+                <div className="chip-row" style={{ marginTop: 4 }}>
+                  {['l1z1x', 'sol', 'winnu', 'mahact', 'argent', 'keleres'].map((id) => (
+                    <button key={id} className="chip" onClick={() => setSelected(id)}>
+                      {FACTION_MAP[id].nameZh}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </section>

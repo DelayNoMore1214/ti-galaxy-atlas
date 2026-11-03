@@ -23,7 +23,7 @@ A single-file, story-driven lore archive for *Twilight Imperium 4th Edition* —
 
 <https://delaynomore1214.github.io/ti-galaxy-atlas/>
 
-纯静态页面，构建产物是**单个 `dist/index.html`**（约 1.6 MB），所有 JS、CSS、24 张派系插图全部内联，运行时零外部请求，下载后可离线双击打开。
+纯静态页面，构建产物是**单个 `dist/index.html`**（约 3 MB），所有 JS、CSS、24 张派系插图（500px）全部内联，运行时零外部请求，下载后可离线双击打开。
 
 ## 内容
 
@@ -142,7 +142,7 @@ A lore archive for *Twilight Imperium 4th Edition*: galactic history, geography,
 
 <https://delaynomore1214.github.io/ti-galaxy-atlas/>
 
-A fully static site. The build output is a **single `dist/index.html`** (~1.6 MB) with every JS chunk, stylesheet, and all 24 faction portraits inlined — zero runtime requests, and it opens offline by double-clicking.
+A fully static site. The build output is a **single `dist/index.html`** (~3 MB) with every JS chunk, stylesheet, and all 24 faction portraits inlined — zero runtime requests, and it opens offline by double-clicking.
 
 ## Sections
 

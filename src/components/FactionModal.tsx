@@ -161,7 +161,10 @@ export default function FactionModal({ id, onClose, onOpen, onLocate }: Props) {
                   </div>
                   <div className="rel-body">
                     <strong>
-                      {other.nameZh} <span style={{ color: '#7d7768' }}>{other.nameEn}</span>
+                      {other.nameZh}{' '}
+                      <span lang="en" style={{ color: '#7d7768' }}>
+                        {other.nameEn}
+                      </span>
                     </strong>
                     <span>{r.note}</span>
                     <em>出处 · {r.source}</em>
@@ -183,7 +186,7 @@ export default function FactionModal({ id, onClose, onOpen, onLocate }: Props) {
 
         <div className="modal-section">
           <h4>资料来源</h4>
-          <div className="mono" style={{ lineHeight: 2 }}>
+          <div className="mono source-note">
             {faction.sources.map((s) => (
               <div key={s}>— {s}</div>
             ))}

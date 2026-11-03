@@ -107,7 +107,7 @@ export default function PlaceModal({ place, onClose, onFaction, onLocate }: Prop
 
         <div className="modal-section">
           <h4>出处</h4>
-          <div className="mono">{place.source}</div>
+          <div className="mono source-note">{place.source}</div>
           <p className="place-note">
             图中位置为示意排布，官方从未公布各派系与地点的坐标；此处只表达记载中的相对关系。
           </p>
