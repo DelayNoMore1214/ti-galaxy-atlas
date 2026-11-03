@@ -4,6 +4,7 @@ import { RELATIONS, RELATION_META } from './relations';
 import { PLACES } from './places';
 import { ERAS } from './eras';
 import { GLOSSARY } from './glossary';
+import { applyNameOverrides } from '../lib/nameOverrides';
 import type { Faction, Relation } from './types';
 
 export * from './types';
@@ -104,3 +105,20 @@ export const SOURCES = [
     kind: '官方衍生',
   },
 ];
+
+/**
+ * 译名对照表覆盖：在任何组件读取数据之前原地改写译名。
+ * 引用不变，因此 FACTION_MAP、星图/关系网（Canvas 上画的字）、弹窗都会同步看到新译名。
+ * 映射块来自页面上内嵌的 #name-table-overrides（由 npm run names / vite 构建插件写入）。
+ */
+applyNameOverrides(
+  FACTIONS_BASE,
+  FACTIONS_EXTRA,
+  PLACES,
+  ERAS,
+  GLOSSARY,
+  RELATIONS,
+  RELATION_META,
+  CATEGORY_META,
+  EDITION_META
+);

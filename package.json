@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "names": "node tools/nameTable.mjs sync",
+    "names:watch": "node tools/nameTable.mjs watch",
+    "names:extract": "node tools/nameTable.mjs extract",
+    "names:check": "node tools/nameTable.mjs check"
   },
   "dependencies": {
     "framer-motion": "^11.3.0",
