@@ -296,7 +296,7 @@ export default function NarrativeOrbit({ selected, onSelect }: Props) {
           </g>
 
           <text x="26" y={H - 16} className="orbit-caption">
-            示意图：半径＝与王座的关系层级，不是空间距离；角度仅示意故事相邻，连线只表示关系
+            示意图：半径＝与王座的关系层级，不是空间距离；角度仅示意故事相邻，连线只表示关系 · 点击星点可只看它的关系
           </text>
 
           <g className="orbit-labels">

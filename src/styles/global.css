@@ -946,44 +946,6 @@ h2.title {
   fill: #f2dcae;
 }
 
-.orbit-rels {
-  margin: 4px 0 0;
-  max-height: 320px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(201, 169, 97, 0.4) rgba(255, 255, 255, 0.04);
-}
-
-.orbit-rels::-webkit-scrollbar {
-  width: 6px;
-}
-
-.orbit-rels::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.orbit-rels::-webkit-scrollbar-thumb {
-  background: rgba(201, 169, 97, 0.4);
-  border-radius: 3px;
-}
-
-.orbit-rels .rel-item {
-  cursor: default;
-  background: rgba(11, 16, 25, 0.72);
-}
-
-.orbit-rels .rel-item:hover {
-  background: rgba(16, 22, 35, 0.9);
-}
-
-.detail-en {
-  font-family: var(--sans);
-  font-size: calc(11px * var(--fs));
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
 .orbit-list {
   display: none;
 }
@@ -1058,9 +1020,6 @@ h2.title {
   .orbit-legend-hint {
     margin-left: 0;
     width: 100%;
-  }
-  .orbit-rels {
-    max-height: 260px;
   }
 }
 

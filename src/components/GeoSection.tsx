@@ -3,14 +3,7 @@ import GalaxyMap, { MapLink, MapNode } from './GalaxyMap';
 import NarrativeOrbit from './NarrativeOrbit';
 import WarpDiagram from './WarpDiagram';
 import PlaceModal from './PlaceModal';
-import {
-  CATEGORY_META,
-  FACTION_MAP,
-  PLACES,
-  RELATION_META,
-  otherSide,
-  relationsOf,
-} from '../data';
+import { FACTION_MAP, PLACES } from '../data';
 import type { Place } from '../data';
 
 const PLACE_COLOR: Record<string, string> = {
@@ -62,7 +55,6 @@ export default function GeoSection({ onFaction }: { onFaction: (id: string) => v
   );
 
   const place: Place | undefined = PLACES.find((p) => p.id === selectedPlace);
-  const faction = selectedFaction ? FACTION_MAP[selectedFaction] : null;
 
   return (
     <section className="section" id="geo">
@@ -142,52 +134,6 @@ export default function GeoSection({ onFaction }: { onFaction: (id: string) => v
               selected={selectedFaction}
               onSelect={(id) => setSelectedFaction((prev) => (prev === id ? null : id))}
             />
-            <div className="map-detail">
-              {faction ? (
-                <>
-                  <h3>
-                    {faction.nameZh}{' '}
-                    <span className="detail-en">{faction.nameEn}</span>
-                  </h3>
-                  <div className="en">
-                    {CATEGORY_META[faction.category].label} · {faction.homeworld}
-                  </div>
-                  <p>{faction.oneLiner}</p>
-                  <div className="orbit-rels">
-                    {relationsOf(faction.id).map((r, i) => {
-                      const other = FACTION_MAP[otherSide(r, faction.id)];
-                      const meta = RELATION_META[r.type];
-                      if (!other) return null;
-                      return (
-                        <div key={i} className="rel-item">
-                          <div className="rel-type" style={{ color: meta.color }}>
-                            {meta.label}
-                          </div>
-                          <div className="rel-body">
-                            <strong>{other.nameZh}</strong>
-                            <span>{r.note}</span>
-                            <em>出处 · {r.source}</em>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <div className="chip-row" style={{ marginTop: 16 }}>
-                    <button className="chip" onClick={() => onFaction(faction.id)}>
-                      打开完整档案
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <h3>选择一颗星点</h3>
-                  <p className="empty" style={{ margin: 0 }}>
-                    由内到外的四条轨道，是"与王座的关系"从近到远：议会紧贴王座，旧帝国秩序在里圈，敌对势力在外圈，新来者来自最远处。
-                    点击任一派系，其余连线淡出，只留下它欠下的、或正在打的那些仗。
-                  </p>
-                </>
-              )}
-            </div>
           </>
         )}
 
