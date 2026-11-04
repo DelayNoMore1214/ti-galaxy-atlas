@@ -3,7 +3,7 @@
  *
  * 数据来源：页面内嵌块
  *   <script type="text/plain" id="glossary-overrides">{ ... }</script>
- * 该块由 tools/glossary.mjs（npm run names）或 vite 构建插件从根目录《帝国曙光_术语表_CN-EN.csv》编译而来。
+ * 该块由 tools/glossary.mjs（npm run names）或 vite 构建插件从根目录 glossary-cn-en.csv 编译而来。
  *
  * 覆盖顺序（重要）：
  *  1) 正文替换：把页面里出现的旧译名（text 映射）换成新译名——React 文本、Canvas 星图/关系网都会跟着变；

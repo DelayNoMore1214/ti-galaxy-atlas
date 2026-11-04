@@ -1,7 +1,7 @@
 /**
  * 术语表 · 共享核心
  *
- * 唯一数据源：项目根目录《帝国曙光_术语表_CN-EN.csv》（CN / EN / 类别 / 备注）。
+ * 唯一数据源：项目根目录 glossary-cn-en.csv（CN / EN / 类别 / 备注）。
  * 职责：解析术语表 → 与页面数据（src/data）自动对齐 → 编译成运行时覆盖表 → 注入 dist/index.html。
  *
  * 对齐方式：
@@ -23,7 +23,7 @@ export const BLOCK_ID = 'glossary-overrides';
 export const BLOCK_START = '<!-- GLOSSARY_START -->';
 export const BLOCK_END = '<!-- GLOSSARY_END -->';
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const GLOSSARY_CSV = path.join(ROOT, '帝国曙光_术语表_CN-EN.csv');
+export const GLOSSARY_CSV = path.join(ROOT, 'glossary-cn-en.csv');
 export const ALIASES = path.join(ROOT, 'tools', 'glossaryAliases.json');
 export const DIST_HTML = path.join(ROOT, 'dist', 'index.html');
 export const CSV_HEADER = ['CN', 'EN', '类别', '备注'];

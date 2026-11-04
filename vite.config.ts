@@ -27,7 +27,7 @@ const stripDevPlaceholder = () => ({
 });
 
 /**
- * 把《帝国曙光_术语表_CN-EN.csv》编译成内嵌映射块写进 HTML（开发与构建都注入）。
+ * 把 glossary-cn-en.csv 编译成内嵌映射块写进 HTML（开发与构建都注入）。
  * 与 npm run names 共用 tools/glossaryCore.mjs，两条路径产物一致；
  * 运行时由 src/lib/nameOverrides.ts 读取 #glossary-overrides。
  */

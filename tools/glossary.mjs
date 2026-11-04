@@ -6,7 +6,7 @@
  *   node tools/glossary.mjs watch   监听术语表，保存即自动同步
  *   node tools/glossary.mjs check   校验对齐情况：页面词条是否有对应、别名是否失效、正文键是否存在
  *
- * 唯一需要维护的文件：根目录《帝国曙光_术语表_CN-EN.csv》
+ * 唯一需要维护的文件：根目录 glossary-cn-en.csv
  * 英文名对不上的少数条目写在 tools/glossaryAliases.json（人物、组织别称等）。
  */
 import fs from 'node:fs';
