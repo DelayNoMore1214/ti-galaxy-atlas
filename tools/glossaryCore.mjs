@@ -17,11 +17,12 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 export const BLOCK_ID = 'glossary-overrides';
 export const BLOCK_START = '<!-- GLOSSARY_START -->';
 export const BLOCK_END = '<!-- GLOSSARY_END -->';
-export const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const GLOSSARY_CSV = path.join(ROOT, '帝国曙光_术语表_CN-EN.csv');
 export const ALIASES = path.join(ROOT, 'tools', 'glossaryAliases.json');
 export const DIST_HTML = path.join(ROOT, 'dist', 'index.html');
