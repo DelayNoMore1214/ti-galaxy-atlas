@@ -26,13 +26,6 @@ export default function Sources() {
 
         <div className="disclaimers">
           <div className="disclaimer">
-            <h4>关于译名</h4>
-            <p>
-              《帝国曙光》没有官方简体中文版，社区译名并不统一。本站采用常见音译（拉扎克斯、马哈克、梅卡托·雷克斯、伊克斯查……），
-              并在每个派系名、地名旁永久并列英文原文，便于对照英文资料。注意："拉扎克斯"一词在历史叙述中指旧帝国种族（Lazax），同时也是 L1Z1X 思维网这一派系的中文名——两者同源，书中靠英文名区分。
-            </p>
-          </div>
-          <div className="disclaimer">
             <h4>关于地理图</h4>
             <p>
               FFG 从未公布任何派系的坐标。游戏地图由玩家在开局时自行拼接，只有梅卡托·雷克斯固定位于中心。
@@ -43,15 +36,6 @@ export default function Sources() {
             <h4>不含规则内容</h4>
             <p>
               全站不包含任何玩法、单位属性、科技树、策略或得分机制。所有数字只用于历史年代、派系数量与关系条数。
-            </p>
-          </div>
-          <div className="disclaimer">
-            <h4>关于图像</h4>
-            <p>
-              30 个派系中，24 个使用官方角色立绘（Agent / Commander / Hero）作为圆形缩略图；图片已压缩至
-              500px 并以 base64 内联，随单文件一起分发。凯勒斯、最后壁垒、拉尔·内尔、深锻学者会、赤红叛乱、苍穹会
-              这 6 个派系暂无素材，仍使用按派系 ID 程序生成的几何纹章。所有插画版权归 Fantasy Flight Games
-              所有，本站仅作非商业性的设定整理引用。
             </p>
           </div>
           <div className="disclaimer">
