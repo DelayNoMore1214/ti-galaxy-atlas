@@ -28,8 +28,8 @@ export const CATEGORY_META: Record<
 
 export const EDITION_META: Record<string, { label: string; short: string }> = {
   base: { label: '基础游戏', short: 'BASE' },
-  pok: { label: '预言之王', short: 'PoK' },
-  codex: { label: 'Codex 补充', short: 'CODEX' },
+  pok: { label: '诸王预言', short: 'PoK' },
+  codex: { label: '官方免费扩', short: 'CODEX' },
   thunder: { label: '雷霆边缘', short: 'TE' },
 };
 
